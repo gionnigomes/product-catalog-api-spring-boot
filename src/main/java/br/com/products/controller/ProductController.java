@@ -3,7 +3,6 @@ package br.com.products.controller;
 import java.util.List;
 import java.util.Optional;
 
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,28 +29,28 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/products")
-@Api(value="Product Catalog - API Rest")
+@Api(value = "Product Catalog - API Rest")
 @CrossOrigin(origins = "*")
 public class ProductController {
 
 	@Autowired
 	private ProductService productsService;
-	
+
 	@SuppressWarnings("unused")
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private ProductCustomRepository productCustomRepository;
-	
+
 	public ProductController() {
-		
+
 	}
-	
+
 	public ProductController(ProductCustomRepository productCustomRepository) {
 		this.productCustomRepository = productCustomRepository;
 	}
-	
+
 	@GetMapping
 	@ApiOperation(value = "Returns full list of products")
 	public ResponseEntity<List<Product>> findByAll() {
@@ -63,7 +62,7 @@ public class ProductController {
 	public ResponseEntity<Optional<Product>> findProductById(@PathVariable String id) {
 		return ResponseEntity.ok(productsService.findById(id));
 	}
-	
+
 	@PostMapping
 	@ApiOperation(value = "Register products")
 	public ResponseEntity<Optional<Product>> saveProduct(@RequestBody @Valid Product products) {
@@ -73,33 +72,29 @@ public class ProductController {
 
 	@PutMapping("/{id}")
 	@ApiOperation(value = "Update products")
-	public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") String id, @Valid @RequestBody Product newProduct) {
+	public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") String id,
+			@Valid @RequestBody Product newProduct) {
 		Product product = productsService.updateProduct(id, newProduct);
 		return ResponseEntity.ok().body(product);
 	}
-	
+
 	@Transactional
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "Delete products by id")
-	public void deleteProduct(@PathVariable(value="id") String id){
+	public void deleteProduct(@PathVariable(value = "id") String id) {
 		Optional<Product> delete = productsService.deleteProduct(id);
 		delete.orElseThrow(() -> new FieldValidatorException("Unable to delete. Product id not found."));
 	}
-	
+
 	@GetMapping("/search")
 	@ApiOperation(value = "It performs custom and dynamic search, passing parameters such as q, min_price and max_price")
-	public List<Product> findByProductCustom (
-			@RequestParam(value="q", required = false) String q,
-			@RequestParam(value="min_price", required = false) Double minPrice,
-			@RequestParam(value="max_price", required = false) Double maxPrice){
-		
+	public List<Product> findByProductCustom(@RequestParam(value = "q", required = false) String q,
+			@RequestParam(value = "min_price", required = false) Double minPrice,
+			@RequestParam(value = "max_price", required = false) Double maxPrice) {
+
 		List<Product> queryResultList = this.productCustomRepository.find(q, minPrice, maxPrice);
 		return queryResultList;
-		
+
 	}
-
-
-
-	//TO DO: Implementar Search com valor Min, Max e Q
 
 }

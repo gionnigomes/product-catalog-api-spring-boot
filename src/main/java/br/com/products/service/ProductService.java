@@ -23,7 +23,8 @@ public class ProductService {
 
 	public Optional<Product> findById(String id) {
 		Optional<Product> products = productRepository.findById(id);
-		return Optional.of(products.orElseThrow(() -> new ProductNotFoundException("Product id " + id + " not found.")));
+		return Optional
+				.of(products.orElseThrow(() -> new ProductNotFoundException("Product id " + id + " not found.")));
 	}
 
 	public Optional<Product> saveProduct(Product products) {
@@ -56,13 +57,12 @@ public class ProductService {
 		return product;
 	}
 
-	
-	  public Optional<Product> deleteProduct(String id) { 
-		  Optional<Product> product = productRepository.findById(id);
-		  if(product.isPresent()){
-			 productRepository.deleteById(id);
-		  }	
-		  return product;
-	  }
-	 
+	public Optional<Product> deleteProduct(String id) {
+		Optional<Product> product = productRepository.findById(id);
+		if (product.isPresent()) {
+			productRepository.deleteById(id);
+		}
+		return product;
+	}
+
 }

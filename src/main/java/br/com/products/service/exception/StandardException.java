@@ -3,8 +3,6 @@ package br.com.products.service.exception;
 
 import java.io.Serializable;
 
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

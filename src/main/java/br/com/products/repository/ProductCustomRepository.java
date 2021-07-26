@@ -24,7 +24,7 @@ public class ProductCustomRepository {
 		String cond = " where ";
 		
 		if(name != null) {
-			query += cond + " P.name like :q";
+			query += cond + " P.name like :q  or P.description like :q";
 			cond = " and ";
 		}
 		

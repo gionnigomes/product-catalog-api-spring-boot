@@ -24,7 +24,7 @@ public class ProductCustomRepository {
 		String cond = " where ";
 		
 		if(name != null) {
-			query += cond + " P.name like :q  or P.description like :q";
+			query += cond + " lower(P.name) like :q or lower(P.description) like :q ";
 			cond = " and ";
 		}
 		
@@ -40,7 +40,7 @@ public class ProductCustomRepository {
 		TypedQuery<Product> q = em.createQuery(query, Product.class);
 		
 		if(name != null) {
-			q.setParameter("q", "%"+name+"%");
+			q.setParameter("q", "%"+name.toLowerCase()+"%");
 		}
 		
 		if(min != null) {

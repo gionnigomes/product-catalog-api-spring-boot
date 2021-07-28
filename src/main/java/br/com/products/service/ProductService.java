@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import br.com.products.model.Product;
@@ -29,6 +30,7 @@ public class ProductService {
 				.of(products.orElseThrow(() -> new ProductNotFoundException("Product id " + id + " not found.")));
 	}
 	
+	@Transactional
 	public Optional<Product> saveProduct(Product products) {
 		Product prod = productRepository.save(products);
 		Optional<Product> prodAux = Optional.ofNullable(prod);
@@ -45,6 +47,7 @@ public class ProductService {
 		}
 	}
 
+	@Transactional
 	public Product updateProduct(String id, Product newProduct) {
 		Optional<Product> oldProduct = findById(id);
 		Product product = null;
@@ -59,6 +62,7 @@ public class ProductService {
 		return product;
 	}
 
+	@Transactional
 	public Optional<Product> deleteProduct(String id) {
 		Optional<Product> product = productRepository.findById(id);
 		if (product.isPresent()) {

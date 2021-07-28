@@ -81,7 +81,7 @@ public class ProductController {
 		return ResponseEntity.ok().body(product);
 	}
 
-	@Transactional
+	
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "Delete products by id")
 	public void deleteProduct(@PathVariable(value = "id") String id) {
